@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grão da Serra — Pedidos</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><span class="grao">☕</span><div><strong>Grão da Serra</strong><small>Empório &amp; Café</small></div></div>
+    <nav id="menu">
+      <button data-tela="cardapio" class="ativo">Cardápio</button>
+      <button data-tela="novo">Novo pedido</button>
+      <button data-tela="pedidos">Pedidos</button>
+      <button data-tela="gerencia">Gerência</button>
+    </nav>
+  </header>
+
+  <!-- Local visível para mensagens (sucesso e erros vindos do banco via SIGNAL) -->
+  <div id="mensagem" class="mensagem" role="alert" hidden></div>
+
+  <main>
+    <!-- 1. CARDÁPIO -->
+    <section id="tela-cardapio" class="tela">
+      <h1>Cardápio</h1>
+      <div id="cardapio"></div>
+    </section>
+
+    <!-- 2. NOVO PEDIDO -->
+    <section id="tela-novo" class="tela" hidden>
+      <h1>Novo pedido</h1>
+      <div class="grade2">
+        <div class="cartao">
+          <h2>1. Abrir pedido</h2>
+          <label>Cliente <select id="selCliente"></select></label>
+          <label>Funcionário <select id="selFuncionario"></select></label>
+          <button id="btnAbrir" class="primario">Abrir pedido</button>
+          <p id="infoPedido" class="dica">Nenhum pedido em andamento.</p>
+        </div>
+        <div class="cartao" id="areaItens">
+          <h2>2. Itens do pedido <span id="numPedido"></span></h2>
+          <div class="linha">
+            <label class="cresce">Produto <select id="selProduto"></select></label>
+            <label class="pequeno">Qtd <input id="inpQtd" type="number" min="1" value="1"></label>
+            <button id="btnAdicionar" class="primario">Adicionar</button>
+          </div>
+          <table>
+            <thead><tr><th>Produto</th><th class="num">Qtd</th><th class="num">Preço un.</th><th></th></tr></thead>
+            <tbody id="tabItens"></tbody>
+          </table>
+          <button id="btnFinalizar" class="destaque">Finalizar pedido</button>
+          <div id="resultadoFinal" class="resultado" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PEDIDOS -->
+    <section id="tela-pedidos" class="tela" hidden>
+      <h1>Pedidos</h1>
+      <div class="filtros" id="filtros">
+        <button data-status="" class="ativo">Todos</button>
+        <button data-status="ABERTO">Abertos</button>
+        <button data-status="PAGO">Pagos</button>
+        <button data-status="CANCELADO">Cancelados</button>
+      </div>
+      <table>
+        <thead><tr><th>Nº</th><th>Data</th><th>Status</th><th>Cliente</th><th>Atendente</th>
+          <th class="num">Itens</th><th class="num">Bruto</th><th class="num">Desc.</th><th class="num">Total</th></tr></thead>
+        <tbody id="tabPedidos"></tbody>
+      </table>
+    </section>
+
+    <!-- 4. GERÊNCIA -->
+    <section id="tela-gerencia" class="tela" hidden>
+      <h1>Gerência</h1>
+      <div class="grade2">
+        <div class="cartao"><h2>Produtos para repor</h2>
+          <table><thead><tr><th>Produto</th><th>Categoria</th><th class="num">Estoque</th>
+            <th class="num">Mínimo</th><th class="num">Faltam</th></tr></thead><tbody id="tabRepor"></tbody></table></div>
+        <div class="cartao"><h2>Vendas por categoria</h2>
+          <table><thead><tr><th>Categoria</th><th class="num">Unidades</th><th class="num">Faturamento</th></tr></thead>
+            <tbody id="tabVendas"></tbody></table></div>
+        <div class="cartao"><h2>Reajuste de preços</h2>
+          <label>Categoria <select id="selCategoria"></select></label>
+          <label>Percentual (%) <input id="inpPercentual" type="number" step="0.01" value="10"></label>
+          <p class="dica">Use valor negativo para reduzir o preço.</p>
+          <button id="btnReajustar" class="primario">Aplicar reajuste</button></div>
+        <div class="cartao"><h2>Histórico de preços</h2>
+          <table><thead><tr><th>Data</th><th>Produto (id)</th><th class="num">Antigo</th>
+            <th class="num">Novo</th><th>Usuário</th></tr></thead><tbody id="tabHistorico"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
